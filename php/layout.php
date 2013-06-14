@@ -8,10 +8,12 @@ class Layout {
 	public function Layout($path, $str_path){
 		$this->path = $path;
 		$this->strings = new StringResource($str_path);
+		
 	}
 	
 	public function SetContentView($view, $isFile = true){
 		$this->content = $this->GetContent($view, $isFile);
+		
 	}
 	
 	public function RenderView(){

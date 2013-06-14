@@ -283,6 +283,8 @@ if($survey){
 			
 			if($errors == false){
 				$values['answers'] = serialize($answers);
+				$_SESSION['answers'] = serialize($answers);
+				$_SESSION["survey_id"] = $id;
 				$format[] = "%s";
 				$values['date_taken'] = date('Y-m-d H:i:s');
 				$format[] = "%s";

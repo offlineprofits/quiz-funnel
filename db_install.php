@@ -54,3 +54,12 @@ PRIMARY KEY  (id)
 );";
 delta($sql);
 
+$sql = "CREATE TABLE ". TABLES_PREFIX ."survey_takers (
+id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+first_name VARCHAR( 25 ) NOT NULL ,
+last_name VARCHAR( 25 ) NOT NULL ,
+email TEXT NOT NULL ,
+category INT( 11 ) NOT NULL ,
+survey_id INT( 11 ) NOT NULL
+);";
+delta($sql);

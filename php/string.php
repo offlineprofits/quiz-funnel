@@ -6,7 +6,7 @@ class StringResource{
 		if(file_exists($file))
 			$xml = simplexml_load_file($file);
 		if($xml){
-			foreach($xml->children() as $child) {
+			foreach($xml->children() as $child) { 
 				if($child->getName() == 'string'){
 					$attribute = $child->attributes();
 					$key = (String) $attribute['name'];

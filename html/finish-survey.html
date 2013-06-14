@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{ID:name}} - {{ST:site_name}}</title>
+<!-- Le styles -->
+<link href="css/take_survey.css" rel="stylesheet">
+<link href="css/prettyPhoto.css" rel="stylesheet"/>
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<br /><script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.prettyPhoto.js"></script>
+<script type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	<div class="container" style="-moz-text-size-adjust:auto; -webkit-text-size-adjust:auto; -ms-text-size-adjust:auto;">
+		<br/>
+		<h1><a href="{{ID:site_url}}">{{ST:site_name}}</a></h1>
+		<br/>
+		
+		
+	<div class="well">
+	<h2>Please give the following details to complete the survey</h2>
+	<br/>
+	
+	</div>
+	<br/>
+	
+	<div class="alert hide" id="alert_div"></div>
+	<form method="post" action="thankyou.php" name="finish_survey" id="finish_survey" class="survey_form">
+	
+	 First Name &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="firstname" id="fn"><br />
+	 Last Name &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="lastname" id="ln"><br />
+	 Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="email" id="em">
+	
+	
+	<div {{ID:hide_buttons}}>
+	<p><input class="btn" name="submit" value="{{ST:submit}}" type="submit" id="sub"></p>
+	</div>
+	</form>
+		<br/>
+		
+		<footer>
+			<p>&copy; {{ST:site_name}} {{ID:current_year}}</p>
+		</footer>
+	</div> <!-- /container -->
+</body>
+</html>
+<script>
+	$(function(){
+		$("#sub").click(function(){
+			fname = $("#fn").val()
+			lname = $("#ln").val()
+			email = $("#em").val()
+			var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			if(fname == ""){
+				$("#alert_div").html("Please enter the First name").removeClass("hide")
+				return false
+			}
+			if(lname == ""){
+				$("#alert_div").html("Please enter the Last name").removeClass("hide")
+				return false
+			}
+			if(email == ""){
+				$("#alert_div").html("Please enter the Email").removeClass("hide")
+				return false
+			}	
+			if(!regex.test(email)){
+				$("#alert_div").html("Please enter a valid Email").removeClass("hide")
+				return false	
+			}	
+			
+		})
+	})
+</script>
