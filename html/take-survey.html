@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{ID:name}} - {{ST:site_name}}</title>
+<!-- Le styles -->
+<link href="css/take_survey.css" rel="stylesheet">
+<link href="css/prettyPhoto.css" rel="stylesheet"/>
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.prettyPhoto.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(){
+	$("a[rel^='prettyPhoto']").prettyPhoto();
+});
+</script>
+<script>
+$(document).ready(function() {
+//Make sure that only numbers are put in the quantity input
+	$(".field_nd").keydown(function(event) {
+        // Allow: backspace, delete, tab and escape
+        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || 
+             // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+        }else {
+            // Ensure that it is a number and stop the keypress
+            if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault(); 
+            } 
+        }
+    	});
+    	
+    	//Make sure that only numbers are put in the quantity input
+	$(".field_nc").keydown(function(event) {
+        // Allow: backspace, delete, tab and escape
+        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || 
+             // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+        }else {
+            // Ensure that it is a number and stop the keypress
+            if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                if(event.keyCode != 190){
+                 if(event.keyCode != 110){
+                event.preventDefault(); 
+               } 
+               }
+            } 
+        }
+    	});
+    	
+$.get("token.php",function(txt){
+  $(".survey_form").append('<input type="hidden" name="ts" value="'+txt+'" />');
+});
+});
+</script>
+</head>
+<body>
+	<div class="container" style="-moz-text-size-adjust:auto; -webkit-text-size-adjust:auto; -ms-text-size-adjust:auto;">
+		<br/>
+		<h1><a href="{{ID:site_url}}">{{ST:site_name}}</a></h1>
+		<br/>
+		
+		
+	<div class="well">
+	<h2>{{ID:name}}</h2>
+	<br/>
+	{{ID:description}}
+	</div>
+	<br/>
+	{{ID:alert}}
+	<form method="post" action="take_survey.php{{ID:id_query}}" name="survey{{ID:id}}" id="survey{{ID:id}}" class="survey_form">
+	
+	{{ID:questions}}
+	
+	
+	<div {{ID:hide_buttons}}>
+	<p><input class="btn" name="submit" value="{{ST:submit_answers}}" type="submit">&nbsp;&nbsp;&nbsp;&nbsp;<input class="btn" name="save" value="{{ST:save_answers}}" type="submit"></p>
+	</div>
+	</form>
+		<br/>
+		
+		<footer>
+			<p>&copy; {{ST:site_name}} {{ID:current_year}}</p>
+		</footer>
+	</div> <!-- /container -->
+
+
+</body>
+</html>

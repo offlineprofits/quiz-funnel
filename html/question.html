@@ -1,0 +1,83 @@
+<!-- question.html:Start -->
+<h2 style="float: left;">{{ID:title}}</h2>
+<p style="float: right;"><a href="questions.php?id={{ID:survey_id}}" class="btn">{{ST:back_to_questions}}</a> <a href="surveys.php?id={{ID:survey_id}}" class="btn">{{ST:back_to_survey}}</a></p>
+<div style="clear: both;"></div>
+<br/>
+<div class="row">
+<div class="span12">
+{{ID:alert}}
+<form class="form-horizontal" method="post" action="question.php?id={{ID:id}}"  enctype="multipart/form-data">
+<fieldset>
+<legend>{{ST:edit_question}}</legend>
+<div class="control-group">
+<label class="control-label" for="name">{{ST:question}}</label>
+<div class="controls">
+<textarea class="span6" rows="4" name="question" id="question">{{ID:question}}</textarea>
+<script type="text/javascript">
+tinyMCE.init({
+	mode: "exact",
+	elements : "question",
+	theme : "advanced",
+	plugins : "emotions,spellchecker,advhr,insertdatetime,preview", 
+	theme_advanced_buttons1 : "bold,italic,underline,link,unlink,image,bullist,numlist,cut,copy,paste",
+	convert_urls : false,
+	relative_urls : false,
+	document_base_url : "{{ID:base_url}}"
+});
+</script>
+<p class="help-block"></p>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label"></label>
+<div class="controls">
+<label class="checkbox inline">
+<input type="checkbox" value="1" name="is_required"  {{ID:is_required_state}}/> {{ST:is_required}}
+</label>
+<p class="help-block"></p>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="desrciption">{{ST:select_type}}</label>
+<div class="controls">
+<select class="span6" name="question_type" id="question_type" onChange="toggle_question_type2();">
+<option value="tf" {{ID:selected_type_tf}}>{{ST:true_or_false}}</option>
+<option value="st" {{ID:selected_type_st}}>{{ST:short_text}}</option>
+<option value="lt" {{ID:selected_type_lt}}>{{ST:long_text}}</option>
+<option value="mp" {{ID:selected_type_mp}}>{{ST:multiple_choice_single_answer}}</option>
+<option value="ma" {{ID:selected_type_ma}}>{{ST:multiple_choice_multiple_answers}}</option>
+<option value="nd" {{ID:selected_type_nd}}>{{ST:numeric_discrete}}</option>
+<option value="nc" {{ID:selected_type_nc}}>{{ST:numeric_continuous}}</option>
+</select>
+<p class="help-block"></p>
+</div>
+</div>
+<div class="control-group">
+<div class="controls">
+<div id="multiple_choice" {{ID:hide_multi}}>
+<div id="choices">
+{{ID:choices}}
+</div>
+<a href="#" onclick="return add_choice_field2();">{{ST:add_choice}}</a>
+</div>
+</div>
+</div>
+<div class="control-group">
+<div class="controls">
+<div id="files">
+{{ID:files}}
+</div>
+<a href="#" onclick="return add_file_field2();">{{ST:add_attachment}}</a>
+</div>
+</div>
+<div class="form-actions">
+<button type="submit" class="btn btn-info" name="submit" value="1">{{ST:save}}</button>
+<button onclick="return confirm('{{ST:are_you_sure}}');"  type="submit" class="btn btn-danger" name="delete" value="1">{{ST:delete}}</button>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+<!-- question.html:End -->

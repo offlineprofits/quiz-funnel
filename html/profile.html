@@ -1,0 +1,52 @@
+<!-- profile.html:Start -->
+<h2>{{ID:title}}</h2>
+<br/>
+<div class="row">
+<div class="span12">
+{{ID:alert}}
+<form class="form-horizontal" method="post" action="profile.php">
+<fieldset>
+<legend>{{ST:change_your_details}}</legend>
+<div class="control-group">
+<label class="control-label">{{ST:current_password}}</label>
+<div class="controls">
+<input type="password" class="span6" name="opassword" />
+<p class="help-block"></p>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label" for="name">{{ST:name}}</label>
+<div class="controls">
+<input type="text" class="span6" name="name" value="{{ID:name}}"/>
+<p class="help-block"></p>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label" for="name">{{ST:email}}</label>
+<div class="controls">
+<input type="text" class="span6" name="email" value="{{ID:email}}"/>
+<p class="help-block"></p>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label" for="name">{{ST:password}}</label>
+<div class="controls">
+<input type="password" class="span6" name="password" />
+<p class="help-block"></p>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label" for="name">{{ST:repeat_password}}</label>
+<div class="controls">
+<input type="password" class="span6" name="cpassword" />
+<p class="help-block"></p>
+</div>
+</div>
+<div class="form-actions">
+<button type="submit" class="btn btn-info" name="submit" value="1">{{ST:save}}</button>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+<!-- profile.html:End -->

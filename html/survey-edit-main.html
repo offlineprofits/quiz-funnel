@@ -1,0 +1,66 @@
+<h2 style="float: left;">{{ID:title}}</h2>
+<p style="float: right;"><a  {{ID:delete_state}} href="surveys.php" class="btn btn-success">{{ST:create_new_survey}}</a> <a target="_blank" href="take_survey.php{{ID:i_query}}" class="btn" {{ID:preview_state}}>{{ST:view}}</a> <a target="_blank" href="https://twitter.com/intent/tweet?url={{ID:survey_url}}" class="btn btn-info" {{ID:preview_state}}>{{ST:tweet}}</a>  <a target="_blank" href="http://www.facebook.com/sharer.php?u={{ID:survey_url}}&t={{ID:name}}" class="btn btn-primary" {{ID:preview_state}}>{{ST:fb_share}}</a></p>
+<div style="clear: both;"></div>
+<code {{ID:preview_state}}>{{ID:base_url}}take_survey.php{{ID:i_query}}</code><br/>
+<br/>
+{{ID:alert}}
+<div class="row">
+<div class="span4">
+<form method="post" action="surveys.php{{ID:id_query}}" enctype="multipart/form-data">
+<input type="text" class="span4" title="{{ST:title}}" placeholder="{{ST:title}}" name="title" value="{{ID:name}}"/><br/>
+<textarea class="span4" rows="4" placeholder="{{ST:description}}" name="description" id="description" width="200px">{{ID:description}}</textarea><br/>
+<script type="text/javascript">
+tinyMCE.init({
+	mode: "exact",
+	elements : "description",
+	theme : "advanced",
+	plugins : "emotions,spellchecker,advhr,insertdatetime,preview", 
+	theme_advanced_buttons1 : "bold,italic,underline,link,unlink,image,bullist,numlist,cut,copy,paste",
+	convert_urls : false,
+	relative_urls : false,
+	document_base_url : "{{ID:base_url}}"
+});
+</script>
+<input type="text" class="span4" title="{{ST:redirect_url}}" placeholder="{{ST:redirect_url}}" name="redirect_url" value="{{ID:redirect_url}}"/><br/>
+<input type="text" class="span4 field_nd" title="{{ST:daily_limit}}" placeholder="{{ST:daily_limit}}" name="daily_limit" value="{{ID:daily_limit}}"/><br/>
+<input type="text" class="span4 field_nd" title="{{ST:total_limit}}" placeholder="{{ST:total_limit}}" name="total_limit" value="{{ID:total_limit}}"/><br/>
+<input type="checkbox" name="email" value="1" {{ID:email_state}}/> {{ST:email_me_when_taken}}<br/>
+<span {{ID:hide_lock}}><input type="checkbox" name="lock" value="1" {{ID:lock_state}}/> {{ST:deactivate}}<br/><br/></span>
+<p><button type="submit" name="submit" value="1" class="btn btn-info">{{ST:save}}</button> <button onclick="return confirm('{{ST:are_you_sure}}');"  type="submit" name="delete" value="1" class="btn btn-danger" {{ID:delete_state}}>{{ST:delete}}</button></p>
+</form>
+</div>
+
+<div class="span8">
+<ul class="nav nav-tabs">
+<li{{ID:tab_questions_active}}><a href="#questions" data-toggle="tab">{{ST:questions}}</a></li>
+<li{{ID:tab_results_active}}><a href="#results" data-toggle="tab">{{ST:answers}}</a></li>
+<li{{ID:tab_statistics_active}}><a href="#statistics" data-toggle="tab">{{ST:statistics}}</a></li>
+<li{{ID:tab_two_way_tables_active}}><a href="#two_way_tables" data-toggle="tab">{{ST:two_way_tables}}</a></li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane{{ID:pane_questions_active}}" id="questions">
+{{ID:questions}}	
+</div>
+<div class="tab-pane{{ID:pane_results_active}}" id="results">
+{{ID:results}}	
+</div>
+<div class="tab-pane{{ID:pane_statistics_active}}" id="statistics">
+{{ID:statistics}}	
+</div>
+<div class="tab-pane{{ID:pane_two_way_tables_active}}" id="two_way_tables">
+{{ID:two_way_tables}}	
+</div>
+</div>
+
+</div>
+</div>
+    
+    
+<div class="modal" id="myModal" style="display:none;">
+<div class="modal-body">
+<a class="close" data-dismiss="modal">×</a>
+<div style="clear:both;"></div>
+<br/>
+<div id="modal_content"></div>
+</div>
+</div>

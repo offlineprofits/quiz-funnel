@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ID:title}} - {{ST:app_name}}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Le styles -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/prettyPhoto.css" rel="stylesheet"/>
+<link href="css/app.css" rel="stylesheet">
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.placeholder.min.js"></script>
+<script src="charts/FusionCharts.js"></script>
+<script type="text/javascript" src="js/tiny_mce/tiny_mce.js"></script>
+<script src="js/jquery.prettyPhoto.js"></script>
+<script src="js/app.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(){
+	$("a[rel^='prettyPhoto']").prettyPhoto();
+});
+</script>
+<script>
+function toggle_question_type(){
+	$("#choices").empty();
+	$("#choices").append('<input type="text" class="span4" name="choice[]" value="{{ID:choice_a}}" placeholder="{{ST:choice}}"><br>');
+	if($('#question_type').val() == 'mp' || $('#question_type').val() == 'ma'){
+		$('#multiple_choice').show();
+	}else{
+		$('#multiple_choice').hide();
+	}
+}
+function add_choice_field(){
+	$("#choices").append('<input type="text" class="span4" name="choice[]" value="{{ID:choice_a}}" placeholder="{{ST:choice}}"><br>');
+	return false;
+}
+function add_file_field(){
+	$("#files").append('<input type="file" name="files[]"><br>');
+	return false;
+}
+function add_file_field2(){
+	$("#files").append('<input type="file" name="files[]"><br><br>');
+	return false;
+}
+function clear_files(){
+	$("#files").empty();
+	return false;
+}
+function toggle_question_type2(){
+	$("#choices").empty();
+	$("#choices").append('<input type="text" class="span6" name="choice[]" value="{{ID:choice_a}}" placeholder="{{ST:choice}}"><br><br>');
+	if($('#question_type').val() == 'mp' || $('#question_type').val() == 'ma'){
+		$('#multiple_choice').show();
+	}else{
+		$('#multiple_choice').hide();
+	}
+}
+function add_choice_field2(){
+	$("#choices").append('<input type="text" class="span6" name="choice[]" value="{{ID:choice_a}}" placeholder="{{ST:choice}}"><br><br>');
+	return false;
+}
+
+function GetAnswers(id){
+	var survey_id = '{{ID:id}}';
+	$('#myModal').modal('show');
+	$("#modal_content").empty();
+	$("#modal_content").append('<p id="modal_loading">{{ST:loading}}</p>');
+	$.post('results.php',{id: id,survey_id: survey_id}, function(results){
+		$("#modal_content").empty();
+		if(results.status == 1){
+			$("#modal_content").append(results.answers);
+		}else{
+			alert(results.error);
+		}
+	}, "json");
+	return false;
+}
+</script>
+<script>
+$(document).ready(function() {
+//Make sure that only numbers are put in the quantity input
+	$(".field_nd").keydown(function(event) {
+        // Allow: backspace, delete, tab and escape
+        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || 
+             // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+        }else {
+            // Ensure that it is a number and stop the keypress
+            if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault(); 
+            } 
+        }
+    	});
+    	
+});
+</script>
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+</head>
+<body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="index.php">{{ST:site_name}}</a>
+				<div class="nav-collapse">
+					<ul class="nav pull-right">
+						{{ID:right_menu}}
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<h1><a href="index.php">{{ST:app_name}}</a></h1>
+		<p>{{ST:app_desc}}</p>
+		<div class="subnav">
+			<ul class="nav nav-pills">
+				<li {{ID:menu_home_active}}><a href="index.php">{{ST:surveys}}</a></li>
+				<li {{ID:menu_admins_active}}"><a href="admins.php">{{ST:administrators}}</a></li>
+			</ul>
+		</div>
+		<br/>
+		
+		{{ID:content}}
+		
+		<hr>
+		<footer>
+			<p>&copy; {{ST:site_name}} {{ID:current_year}}</p>
+		</footer>
+	</div> <!-- /container -->
+</body>
+</html>

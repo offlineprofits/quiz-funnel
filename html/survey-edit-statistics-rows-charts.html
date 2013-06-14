@@ -1,0 +1,11 @@
+<div class="row">
+<div class="span8">
+<div id="chartdiv{{ID:id}}" align="center"></div>
+<script type="text/javascript">
+var chart{{ID:id}} = new FusionCharts("charts/{{ID:type}}.swf", "ChartId{{ID:id}}", "{{ID:width}}", "{{ID:height}}");
+var xmlData{{ID:id}} = '{{ID:data}}';
+chart{{ID:id}}.setDataXML(xmlData{{ID:id}});		   
+chart{{ID:id}}.render("chartdiv{{ID:id}}");
+</script>
+</div>
+</div>

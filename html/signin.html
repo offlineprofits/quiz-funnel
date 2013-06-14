@@ -1,0 +1,38 @@
+<!-- signin.html:Start -->
+<div class="row">
+<div class="span6 offset3">
+{{ID:alert}}
+<form class="form-horizontal" method="post" action="signin.php">
+<fieldset>
+<legend>{{ID:title}}</legend>
+<div class="control-group">
+<label class="control-label">{{ST:email}}</label>
+<div class="controls">
+<input type="text" class="input-xlarge" name="email" value="{{ID:email}}"/>
+<p class="help-block"></p>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label" for="input01">{{ST:password}}</label>
+<div class="controls">
+<input type="password" class="input-xlarge" name="password"/>
+<p class="help-block"></p>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label"></label>
+<div class="controls">
+<label class="checkbox inline">
+<input type="checkbox" value="1" name="remember_me"  {{ID:remember_me_state}}/> {{ST:remember_me}}
+</label>
+<p class="help-block"></p>
+</div>
+</div>
+<div class="form-actions">
+<button type="submit" class="btn btn-info" name="submit" value="1">{{ST:signin}}</button> <a class="btn" href="forgot.php">{{ST:forgot_password}}</a>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+<!-- signin.html:End -->

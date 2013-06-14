@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Survey Engine - User Guide</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Le styles -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/app.css" rel="stylesheet">
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+<div class="container">
+	<h1><a href="index.php">Survey Engine</a></h1>
+	<p>User driven knowledge base</p>
+	<ul class="breadcrumb">
+    <li class="active">User Guide</li>
+    </ul>
+	<div class="row">
+		
+		<!-- MainContent -->
+		<div class="span12">
+			<p>Created By: <b>Robert Nduati</b> , Email: <a href="mailto:robertnduati.karanja@gmail.com">robertnduati.karanja@gmail.com</a></p>
+			<br/>
+			<h2>About</h2>
+			<p>Survey Engine is a PHP script that is ment to helps you set up any number of surveys quickly. </p>
+		<br/>
+		<h2>Features:</h2>
+		<ul>
+			<li>Easy to translate to any language since all the text is in one file</li>
+			<li>Easy to redesign since the HTML/CSS is separated from the PHP and is built using the twitter bootstrap</li>
+			<li>7 question types</li>
+			<li>Easily share the survey using a link or through twitter or facebook</li>
+			<li>Get quick summary of results in the admin dashboard</li>
+			<li>Two-way table analysis is supported.</li>
+			<li>Full featured admin authentication system</li>
+			<li>Survey is protect from spam while not stressing the repondent with captcha</li>
+		</ul>
+		<br/>
+		<h2>Installation:</h2>
+		<ol>
+		<li>Unzip the package</li>
+		<li>Open the file /php/config.php with a text editor and put in the details for your server</li>
+		<li>Navigate to the script install.php using your browser</li>
+		<li>A user account will be created for you. You can change the account later. For the first time sign in with the following credetials:<br/>
+		<b>Email:</b> The one you set for the webmaster in the file /php/config.php<br/>
+		<b>Password:</b> admin</li>
+		<li>Delete the file install.php</li>
+		</ol>
+		
+		<br/>
+		<h2>Getting Started:</h2>
+		<ol>
+		<li>After you have signed in, click on the green button named "create new survey". You will be directed to a page for creating the survey by providing a title and description for it.<img width="900px" src="userguide_files/Screenshot1.jpg" /></li>
+		<li>After you have created the survey, you will need to create questions by clicking on the "Add a question" link that will appear in the page. <img width="900px" src="userguide_files/Screenshot2.jpg" /></li>
+		<li>You will be directed to a page for creating the question. To create a question, just type the question and select the type. <img width="900px" src="userguide_files/Screenshot3.jpg" />  <img width="900px" src="userguide_files/Screenshot4.jpg" /></li>
+		<li>Once you have created all the questions, click on the button name "Back to Survey". There will be a button for you to view the survey. A link that you can use to share the survey will have appeared. Also there will be buttons for sharing on facebook and twitter.   <img width="900px" src="userguide_files/Screenshot5.jpg" /></li>
+		<li>There survey will now be ready to be taken. You will find the results on the "Manage Survey" page in the answers/statistics/two-way table tabs. <img width="900px" src="userguide_files/Screenshot6.jpg" />  <img width="900px" src="userguide_files/Screenshot7.jpg" /></li>
+		</ol>
+		
+		
+		
+		<br/>
+		<h2>Translating the script:</h2>
+		<p>To translate this script from English to any other language:</p>
+		<ol>
+		<li>Open the file /str/strings.xml using a text editor</li>
+		<li>You will find all the text that appears on all the page there. Simply translate them one by one</li>
+		</ol>
+		<br/>
+		<h2>Redesign the script's look:</h2>
+		<p>All the HTML that is used in the script is in the folder "html" and the CSS is in the folder "css"</p>
+		<p>The most important files are /html/private-base.html and /html/public-base.html</p>
+		
+		</div><!--/span-->
+		
+
+	</div><!--/row-->
+	<hr>
+	<footer>
+		<p>&copy; Survey Engine 2012</p>
+	</footer>
+</div><!--/.fluid-container-->
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

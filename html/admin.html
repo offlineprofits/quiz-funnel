@@ -1,0 +1,53 @@
+<!-- admin.html:Start -->
+<h2>{{ID:title}}</h2>
+<br/>
+<div class="row">
+<div class="span12">
+{{ID:alert}}
+<form class="form-horizontal" method="post" action="admin.php?id={{ID:id}}">
+<fieldset>
+<legend>{{ST:edit_admin}}</legend>
+<div class="control-group">
+<label class="control-label" for="name">{{ST:name}}</label>
+<div class="controls">
+<input type="text" class="span6" name="name" value="{{ID:name}}"/>
+<p class="help-block"></p>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label" for="name">{{ST:email}}</label>
+<div class="controls">
+<input type="text" class="span6" name="email" value="{{ID:email}}"/>
+<p class="help-block"></p>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label">{{ST:permissions}}</label>
+<div class="controls">
+<label class="checkbox inline">
+<input type="checkbox" value="1" name="can_manage_survey" {{ID:can_manage_survey_state}}/> {{ST:can_manage_surveys}}
+</label>
+<label class="checkbox inline">
+<input type="checkbox" value="1" name="can_manage_admins"  {{ID:can_manage_admins_state}}/> {{ST:can_manage_admins}}
+</label>
+<p class="help-block"></p>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label">{{ST:deny_access}}</label>
+<div class="controls">
+<label class="checkbox inline">
+<input type="checkbox" value="1" name="deny_access"  {{ID:deny_access_state}}/>
+</label>
+<p class="help-block"></p>
+</div>
+</div>
+<div class="form-actions">
+<button type="submit" class="btn btn-info" name="submit" value="1">{{ST:save}}</button>
+<button onclick="return confirm('{{ST:are_you_sure}}');"  type="submit" class="btn btn-danger" name="delete" value="1">{{ST:delete}}</button>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+<!-- admin.html:End -->
