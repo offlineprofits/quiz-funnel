@@ -54,6 +54,25 @@ tinyMCE.init({
 <p class="help-block"></p>
 </div>
 </div>
+<!--<div class="control-group">
+<label class="control-label">Answer for Trader</label> 
+<div class="controls">
+<textarea class="span4" rows="1" name="correct_ans" id="correct_ans" data-toggle="tooltip" title="{{ST:correct_ans}}">{{ID:correctans}}</textarea><br />
+</div>
+</div>
+-->
+
+<div id="tfvalues" class="hide" {{ID:mytrue}}>
+	{{ID:tfvalues}}
+</div><br />
+<div class="control-group">
+<div class="controls">
+<div id="stvalues" class="hide" {{ID:myshort}}>
+	{{ID:stvalues}}
+</div>
+</div>
+</div>
+
 <div class="control-group">
 <div class="controls">
 <div id="multiple_choice" {{ID:hide_multi}}>
@@ -69,6 +88,7 @@ tinyMCE.init({
 <div id="files">
 {{ID:files}}
 </div>
+
 <a href="#" onclick="return add_file_field2();">{{ST:add_attachment}}</a>
 </div>
 </div>
@@ -81,3 +101,6 @@ tinyMCE.init({
 </div>
 </div>
 <!-- question.html:End -->
+<script>
+	$('#correct_ans').tooltip({animation: 'true',placement:'right'})
+</script>

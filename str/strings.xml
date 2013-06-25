@@ -174,4 +174,14 @@
 <string name="required">required</string>
 <string name="no_answers">You cannot submit the survey without providing any answers.</string>
 <string name="is_required2">is required.</string>
+<string name="tab_categories">Categories</string>
+<string name="correct_ans">For multiple type questions seperate the correct answers with ;;
+	For example xyz;;abc
+</string>
+<string name="category">Category</string>
+<string name="categories">Categories</string>
+<string name="add_category">Add a Category</string>
+
+<string name="selectsurvey">Select Survey</string>
+<string name="Assignedto">Assigned to</string>
 </strings>

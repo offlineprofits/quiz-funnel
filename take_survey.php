@@ -81,7 +81,10 @@ if($survey){
 				$choice_layout->SetContentView('take-survey-tf');
 				$choice_layout->AddContentById('name', 'name_'.$question->id);
 				if(isset($_POST['name_'.$question->id]) AND $_POST['name_'.$question->id] != ''){
-					setcookie($cookie_name, $_POST['name_'.$question->id], time() + COOKIE_TIME);
+					$c = $_POST['name_'.$question->id];
+					$t = time() + COOKIE_TIME;
+					echo "<meta http-equiv=Set-Cookie content='$cookie_name=$c; expires=$t'>"; 
+					//setcookie($cookie_name, $_POST['name_'.$question->id], time() + COOKIE_TIME);
 					if($_POST['name_'.$question->id] == 't'){
 						$choice_layout->AddContentById('t_state', 'checked="checked"');
 					}elseif($_POST['name_'.$question->id] == 'f'){
@@ -100,7 +103,10 @@ if($survey){
 				$choices = unserialize($question->choices);
 				$saved_choice = null;
 				if(isset($_POST['name_'.$question->id]) AND $_POST['name_'.$question->id] != ''){
-					setcookie($cookie_name, CleanToSerialize($_POST['name_'.$question->id]), time() + COOKIE_TIME);
+					$c = CleanToSerialize($_POST['name_'.$question->id]);
+					$t = time() + COOKIE_TIME;
+					echo "<meta http-equiv=Set-Cookie content='$cookie_name=$c path=/; expires=$t'>"; 
+					//setcookie($cookie_name, CleanToSerialize($_POST['name_'.$question->id]), time() + COOKIE_TIME);
 					$saved_choice = CleanToSerialize($_POST['name_'.$question->id]);
 				}elseif(isset($_COOKIE[$cookie_name])) {
 					$saved_choice = CleanToSerialize($_COOKIE[$cookie_name]);
@@ -126,7 +132,10 @@ if($survey){
 					foreach($_POST['name_'.$question->id] as $s){
 						$saved_choices[] = CleanToSerialize($s);
 					}
-					setcookie($cookie_name, serialize($saved_choices), time() + COOKIE_TIME);	
+					$c = serialize($saved_choices);
+					$t = time() + COOKIE_TIME;
+					echo "<meta http-equiv=Set-Cookie content='$cookie_name=$c;path=/;expires=$t'>"; 
+					//setcookie($cookie_name, serialize($saved_choices), time() + COOKIE_TIME);	
 				}elseif(isset($_COOKIE[$cookie_name])) {
 					$saved_choices = unserialize($_COOKIE[$cookie_name]);
 					$old_saved_choices = $saved_choices;
@@ -155,7 +164,10 @@ if($survey){
 				$choice_layout->SetContentView('take-survey-st');
 				$choice_layout->AddContentById('name', 'name_'.$question->id);
 				if(isset($_POST['name_'.$question->id]) AND $_POST['name_'.$question->id] != ''){
-					setcookie($cookie_name, $_POST['name_'.$question->id], time() + COOKIE_TIME);
+					$c = $_POST['name_'.$question->id];
+					$t = time() + COOKIE_TIME;
+					echo "<meta http-equiv=Set-Cookie content='$cookie_name=$c;path=/;expires=$t'>"; 
+					//setcookie($cookie_name, $_POST['name_'.$question->id], time() + COOKIE_TIME);
 					$choice_layout->AddContentById('value', $_POST['name_'.$question->id]);
 				}elseif(isset($_COOKIE[$cookie_name])) {
 					$choice_layout->AddContentById('value', $_COOKIE[$cookie_name]);
@@ -166,7 +178,10 @@ if($survey){
 				$choice_layout->SetContentView('take-survey-nd');
 				$choice_layout->AddContentById('name', 'name_'.$question->id);
 				if(isset($_POST['name_'.$question->id]) AND $_POST['name_'.$question->id] != ''){
-					setcookie($cookie_name, $_POST['name_'.$question->id], time() + COOKIE_TIME);
+					$c = $_POST['name_'.$question->id];
+					$t = time() + COOKIE_TIME;
+					echo "<meta http-equiv=Set-Cookie content='$cookie_name=$c;path=/;expires=$t'>"; 
+					//setcookie($cookie_name, $_POST['name_'.$question->id], time() + COOKIE_TIME);
 					$choice_layout->AddContentById('value', $_POST['name_'.$question->id]);
 				}elseif(isset($_COOKIE[$cookie_name])) {
 					$choice_layout->AddContentById('value', $_COOKIE[$cookie_name]);
@@ -177,9 +192,12 @@ if($survey){
 				$choice_layout->SetContentView('take-survey-nc');
 				$choice_layout->AddContentById('name', 'name_'.$question->id);
 				if(isset($_POST['name_'.$question->id]) AND $_POST['name_'.$question->id] != ''){
-					setcookie($cookie_name, $_POST['name_'.$question->id], time() + COOKIE_TIME);
+					$c = $_POST['name_'.$question->id];
+					$t = time() + COOKIE_TIME;
+					echo "<meta http-equiv=Set-Cookie content='$cookie_name=$c;path=/;expires=$t'>";
+					//setcookie($cookie_name, $_POST['name_'.$question->id], time() + COOKIE_TIME);
 					$choice_layout->AddContentById('value', $_POST['name_'.$question->id]);
-				}elseif(isset($_COOKIE[$cookie_name])) {
+				}elseif(isset($_COOKIE[$cookie_name])) { 
 					$choice_layout->AddContentById('value', $_COOKIE[$cookie_name]);
 				}
 				$row_layout->AddContentById('choices', $choice_layout->ReturnView());
@@ -190,7 +208,10 @@ if($survey){
 				$choice_layout->SetContentView('take-survey-lt');
 				$choice_layout->AddContentById('name', 'name_'.$question->id);
 				if(isset($_POST['name_'.$question->id]) AND $_POST['name_'.$question->id] != ''){
-					setcookie($cookie_name, $_POST['name_'.$question->id], time() + COOKIE_TIME);
+					$c = $_POST['name_'.$question->id];
+					$t = time() + COOKIE_TIME;
+					echo "<meta http-equiv=Set-Cookie content='$cookie_name=$c;path=/;expires=$t'>";
+					//setcookie($cookie_name, $_POST['name_'.$question->id], time() + COOKIE_TIME);
 					$choice_layout->AddContentById('value', $_POST['name_'.$question->id]);
 				}elseif(isset($_COOKIE[$cookie_name])) {
 					$choice_layout->AddContentById('value', $_COOKIE[$cookie_name]);
@@ -217,7 +238,9 @@ if($survey){
 			$countX = 1;
 			foreach($questions as $question){
 				$cookie_name = 'surveyengine_'.$id.'_name_'.$question->id;
-				setcookie($cookie_name, '', time() - COOKIE_TIME);
+				$t = time() - COOKIE_TIME;
+				echo "<meta http-equiv=Set-Cookie content='$cookie_name;path=/;expires=$t'>"; 
+				//setcookie($cookie_name, '', time() - COOKIE_TIME);
 				
 				
 				if(isset($_POST['name_'.$question->id]) AND $_POST['name_'.$question->id] != ''){

@@ -6,5 +6,4 @@
 
   ga('create', 'UA-41668684-1', 'daytradertest.com');
   ga('send', 'pageview');
-
 </script>

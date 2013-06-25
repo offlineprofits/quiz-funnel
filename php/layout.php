@@ -13,7 +13,7 @@ class Layout {
 	
 	public function SetContentView($view, $isFile = true){
 		$this->content = $this->GetContent($view, $isFile);
-		
+				
 	}
 	
 	public function RenderView(){

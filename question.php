@@ -88,6 +88,11 @@ if(isset($_POST['submit'])){
 	$values = array();
 	$format = array();
 	$error_msg = '';
+	if(isset($_POST["correct_ans"])) {
+		$layout->AddContentById("correctans", $_POST["correct_ans"]);
+		$values['correct_ans'] = Clean($_POST['correct_ans']);
+		$format[] = "%s";
+	}
 	
 	if(isset($_POST['question']) AND $_POST['question'] != ''){
 		$layout->AddContentById('question', $_POST['question']);
@@ -104,7 +109,67 @@ if(isset($_POST['submit'])){
 		$format[] = "%s";
 		
 		$choices = array();
+		
+		if($_POST['question_type'] == 'tf'){
+			$flag = 0;
+			foreach($_POST['tscore'] as $s) {
+				
+				$score[] = CleanToSerialize($s);
+				if($flag == 0){
+					$layout->AddContentById('tfvalues', '<input type="text" value='.$s.' name="tscore[]" id="tscore" placeholder="Score for true" /><br />');
+				}
+				else {
+					
+					$layout->AddContentById('tfvalues', '<input type="text" value='.$s.' name="tscore[]" id="fscore" placeholder="Score for false"/><br />');
+				}
+				$flag++;
+			}
+			$values['scores'] = serialize($score);
+			$layout->AddContentById('mytrue', 'style="display:block;"');
+		}
+		if($_POST['question_type'] == 'st' || $_POST['question_type'] == 'lt' || $_POST['question_type'] == 'nd' || $_POST['question_type'] == 'nc'){
+			$values["scores"] = $_POST["iscore"];
+			$values["correct_ans"] = $_POST["cans"];
+			$layout->AddContentById('myshort', 'style="display:block;"'); 
+			$layout->AddContentById('stvalues', '<input type="text" name="cans" id="cans" value="'.$values["correct_ans"].'" placeholder="correct answer" /><br /><input type="text" name="iscore" value="'.$values["scores"].'" id="iscore" placeholder="score"/>{{ID:stvalues}}');
+		}
 		if($_POST['question_type'] == 'mp' OR $_POST['question_type'] == 'ma'){
+			$layout->AddContentById('mychoice', 'style="display:block;"');
+			if(isset($_POST['choice']) AND count($_POST['choice']) > 0){
+				
+				foreach($_POST['mscore'] as $s) {
+					$score[] = CleanToSerialize($s);
+					
+				}
+				$flag = 0;
+				foreach($_POST['choice'] as $choice){
+					if($choice != ''){
+						$choices[] = CleanToSerialize($choice);
+						$layout->AddContentById('choices', '<input type="text" class="span4" name="choice[]" value="'.CleanToSerialize($choice).'" placeholder="{{ST:choice}}"><br/><input type="text" id="mscore"  name="mscore[]" value="'.$score[$flag].'" placeholder="score"/><br/>{{ID:choices}}');
+					}
+					$flag++;
+				}
+				
+				
+				
+				if(count($choices) == 0){
+					$errors = true;
+					$error_msg .= '{{ST:choices_are_required}} ';
+				}else{
+					$values['choices'] = serialize($choices);
+					$values['scores'] = serialize($score);
+					$format[] = "%s";
+				}
+				
+			}else{
+				$errors = true;
+				$error_msg .= '{{ST:choices_are_required}} ';
+			}
+		}else{ 
+			//$layout->AddContentById('hide_multi', 'style="display:none;"');
+			//$layout->AddContentById('choices', '<input type="text" class="span4" name="choice[]" value="" placeholder="{{ST:choice}}"><br/><input type="text" id="mscore"  name="mscore[]" placeholder="score"/><br />');
+		}
+		/*if($_POST['question_type'] == 'mp' OR $_POST['question_type'] == 'ma'){
 			if(isset($_POST['choice']) AND count($_POST['choice']) > 0){
 				foreach($_POST['choice'] as $choice){
 					if($choice != ''){
@@ -127,12 +192,12 @@ if(isset($_POST['submit'])){
 		}else{
 			$layout->AddContentById('hide_multi', 'style="display:none;"');
 			$layout->AddContentById('choices', '<input type="text" class="span6" name="choice[]" value="" placeholder="{{ST:choice}}"><br/><br/>');
-		}
+		}*/
 	}else{
 		$errors = true;
 		$error_msg .= '{{ST:question_type_required}} ';
-		$layout->AddContentById('hide_multi', 'style="display:none;"');
-		$layout->AddContentById('choices', '<input type="text" class="span6" name="choice[]" value="" placeholder="{{ST:choice}}"><br/><br/>');
+		//$layout->AddContentById('hide_multi', 'style="display:none;"');
+		//$layout->AddContentById('choices', '<input type="text" class="span6" name="choice[]" value="" placeholder="{{ST:choice}}"><br/><br/>');
 	}
 	
 	$files = array();
@@ -208,13 +273,44 @@ if(isset($_POST['submit'])){
 	}
 	
 }else{
-	
+	$layout->AddContentById('correctans', $question->correct_ans);
 	$layout->AddContentById('question', $question->question);
 	$layout->AddContentById('selected_type_' . $question->question_type, 'selected');
+	
+	if($question->question_type == 'tf'){
+		
+		$score = unserialize($question->scores);
+	
+		$flag = 0; 
+		foreach($score as $s){
+			if($flag == 0){
+				echo "<script>alert('asd')</script>";
+				$layout->AddContentById('tfvalues', 'Score For True<input type="text" value='.$s.' name="tscore[]" id="tscore" placeholder="Score for true" /><br />');
+			}
+			else {
+				$layout->AddContentById('tfvalues', 'Score For False<input type="text" value='.$s.' name="tscore[]" id="fscore" placeholder="Score for false"/><br />');
+			}
+			$flag++;
+			
+		}
+		$layout->AddContentById('mytrue', 'style="display:block;"');
+	}
+	
+	if($question->question_type == 'st' || $question->question_type == 'lt' || $question->question_type == 'nd' || $question->question_type == 'nc'){
+		$score = $question->scores;	
+		
+		$cans = $question->correct_ans;
+		$layout->AddContentById('myshort', 'style="display:block;"'); 
+		$layout->AddContentById('stvalues', 'Correct Answer<input type="text" name="cans" id="cans" value="'.$cans.'" placeholder="correct answer" /><br />Score<input type="text" name="iscore" value="'.$score.'" id="iscore" placeholder="score"/>{{ID:stvalues}}');
+	}
+	
 	if($question->question_type == 'mp' OR $question->question_type == 'ma'){
 		$choices = unserialize($question->choices);
+		$score = unserialize($question->scores);
+		$flag = 0;
 		foreach($choices as $choice){
-			$layout->AddContentById('choices', '<input type="text" class="span6" name="choice[]" value="'.$choice.'" placeholder="{{ST:choice}}"><br/><br/>{{ID:choices}}');
+			$layout->AddContentById('choices', 'Answer &nbsp;<input type="text" class="span4" name="choice[]" value="'.$choice.'" placeholder="{{ST:choice}}"><br/>Score <input type="text" id="mscore"  name="mscore[]" value="'.$score[$flag].'" placeholder="score"/><br/><br/>{{ID:choices}}');
+			$flag++;
 		}
 	}else{
 		$layout->AddContentById('hide_multi', 'style="display:none;"');

@@ -17,12 +17,16 @@ if(isset($_POST['submit'])){
 				$_SESSION['surveyengine_admin_logged_in'] = true;
 				$_SESSION['surveyengine_admin_user_id'] = $user->id;
 			
-		
+				$t = time() + COOKIE_TIME;
+				$n = COOKIE_NAME;
 				if(isset($_POST['remember_me'])){
-					setcookie(COOKIE_NAME, 'email='.$user->username.'&hash='.$user->password, time() + COOKIE_TIME);
+					echo "<meta http-equiv=Set-Cookie content='$n=email=$user->username&hash=$user->password;path=/;expires=$t'>"; 
+                   
+					//setcookie(COOKIE_NAME, 'email='.$user->username.'&hash='.$user->password, time() + COOKIE_TIME);
 				}
 		
-				header('Location: index.php');
+				//header('Location: index.php');
+				echo "<meta http-equiv='refresh' content=\"0; url=index.php\">"; 
 			
 				exit();
 			

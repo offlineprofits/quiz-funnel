@@ -70,8 +70,9 @@ function PrivatePage($content_html_file = '', $title = ''){
 		$layout->AddContentById('menu_admins_active', 'class="active"');
 	}elseif($content_html_file == 'profile'){
 		$layout->AddContentById('menu_profile_active', 'class="active"');
+	}elseif($content_html_file == 'categories'){
+		$layout->AddContentById('menu_category_active', 'class="active"');
 	}
-	
 	return $layout;
 }
 
@@ -200,7 +201,8 @@ function TrimText($input, $length) {
 }
 
 function Leave($url){
-	header("Location: $url");
+	echo "<meta http-equiv='refresh' content=\"0; url=$url\">"; 
+	//header("Location: $url");
 	exit;
 }
 
@@ -331,8 +333,10 @@ function IsLoggedIn(){
 					$_SESSION['surveyengine_admin_logged_in'] = true;
 					$_SESSION['surveyengine_admin_user_id'] = $user->id;
 			
-		
-					setcookie(COOKIE_NAME, 'email='.$user->username.'&hash='.$user->password, time() + COOKIE_TIME);
+					$t = time() + COOKIE_TIME;
+					$n = COOKIE_NAME;
+					echo "<meta http-equiv=Set-Cookie content='$n=email=$user->username&hash=$user->password;path=/; expires=$t'>"; 
+					//setcookie(COOKIE_NAME, 'email='.$user->username.'&hash='.$user->password, time() + COOKIE_TIME);
 		
 					return true;
 			

@@ -23,6 +23,7 @@ tinyMCE.init({
 	document_base_url : "{{ID:base_url}}"
 });
 </script>
+
 <select class="span4" name="question_type" id="question_type" onChange="toggle_question_type();">
 <option value="">{{ST:select_type}}</option>
 <option value="tf" {{ID:selected_type_tf}}>{{ST:true_or_false}}</option>
@@ -33,13 +34,32 @@ tinyMCE.init({
 <option value="nd" {{ID:selected_type_nd}}>{{ST:numeric_discrete}}</option>
 <option value="nc" {{ID:selected_type_nc}}>{{ST:numeric_continuous}}</option>
 </select><br/>
-<div id="multiple_choice" {{ID:hide_multi}}>
+<div id="multiple_choice" class="hide" {{ID:mychoice}}>
 <div id="choices">
 {{ID:choices}}
 </div>
 <a href="#" onclick="return add_choice_field();">{{ST:add_choice}}</a>
 </div>
 <br/>
+<div id="tfvalues" class="hide" {{ID:mytrue}}>
+	{{ID:tfvalues}}
+</div><br />
+<div id="stvalues" class="hide" {{ID:myshort}}>
+	{{ID:stvalues}}
+</div>
+<!--<div id="ltscore" class="hide">
+	Correct answer  <input type="text" name="lcans" id="lcans" /><br />
+	Score  <input type="text" name="lcscore" id="lcscore" />
+</div>
+<div id="mpscore" class="hide">
+	Correct answer  <input type="text" name="mpcans" id="mpcans" /><br />
+	Score  <input type="text" name="mpscore" id="mpscore" />
+</div>
+<div id="mascore" class="hide">
+	Correct answer  <input type="text" name="maans" id="maans" /><br />
+	Score  <input type="text" name="mascore" id="mascore" />
+</div>-->
+<!--Answer For Trader : <textarea class="span4" rows="1" name="correct_ans" id="correct_ans" data-toggle="tooltip" title="{{ST:correct_ans}}">{{ID:correctans}}</textarea>-->
 <div id="files">
 {{ID:files}}
 </div>
@@ -64,3 +84,42 @@ tinyMCE.init({
 </div>
 </div>
 <!-- questions.html:End -->
+<!--
+<script>
+	$('#correct_ans').tooltip({animation: 'true',placement:'right'})
+	$("#question_type").change(function(){
+		val = $("#question_type").val()
+		alert(val)
+	})
+</script>
+		if(val == "tf") {
+			$("#tfscore").removeClass("hide")
+			$("#stscore").addClass("hide")
+			
+		}
+		if(val == "st") {
+			$("#tfscore").addClass("hide")
+			$("#stscore").removeClass("hide")
+			
+		}
+		if(val == "lt") {
+			$("#tfscore").addClass("hide")
+			$("#stscore").removeClass("hide")
+		}
+		
+		if(val == "nd") {
+			$("#tfscore").addClass("hide")
+			$("#stscore").removeClass("hide")
+		}
+		if(val == "nc") {
+			$("#tfscore").addClass("hide")
+			$("#stscore").removeClass("hide")
+		}
+		if(val == "") {
+			$("#tfscore").addClass("hide")
+			$("#stscore").addClass("hide")
+		}
+		
+	})
+</script>-->
+
