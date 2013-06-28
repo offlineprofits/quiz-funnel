@@ -23,6 +23,22 @@ if(isset($_GET['id'])){
 }
 $survey = null;
 
+if(isset($_POST['catsubmit'])) {
+	$string = '';
+	
+	foreach($_POST as $k=>$val) {
+		
+		if($k != 'catsubmit') { 
+			$string .= $k."::".$val.";;";
+		}
+	}
+	$string = substr($string, 0,(strlen($string)-2));
+	$db->query("UPDATE ".TABLES_PREFIX."survey SET score= '$string' WHERE id=$id");
+	$layout->AddContentById($id, $view);
+	//if($db->insert(TABLES_PREFIX . "survey", $values, $format))//{
+	//$db->insert(TABLES_PREFIX . "survey", $values, $format))
+}
+
 if(isset($_POST['delete'])){
 	$db->query("DELETE FROM " . TABLES_PREFIX . "survey WHERE id = " . $id);
 	$db->query("DELETE FROM " . TABLES_PREFIX . "results WHERE survey_id = " . $id);
@@ -58,6 +74,10 @@ if(isset($_GET['active_tab']) AND $_GET['active_tab'] != ''){
             		$layout->AddContentById('tab_two_way_tables_active', ' class="active"');
 			$layout->AddContentById('pane_two_way_tables_active', ' active');
             		break;
+				case 'categories':
+            		$layout->AddContentById('tab_categories_active', ' class="active"');
+			$layout->AddContentById('pane_categories_active', ' active');
+            		break;
             	default:
            		$layout->AddContentById('tab_questions_active', ' class="active"');
 			$layout->AddContentById('pane_questions_active', ' active');
@@ -77,6 +97,7 @@ if($id == null){
 	$layout->AddContentById('results', '<p>{{ST:you_first_need_to_save_the_survey}}</p>');
 	$layout->AddContentById('statistics', '<p>{{ST:you_first_need_to_save_the_survey}}</p>');
 	$layout->AddContentById('two_way_tables', '<p>{{ST:you_first_need_to_save_the_survey}}</p>');
+	$layout->AddContentById('categories', '<p>{{ST:you_first_need_to_save_the_survey}}</p>');
 }else{
 	if(count($db->get_results("SELECT * FROM " . TABLES_PREFIX . "question WHERE survey_id = $id")) == 0){
 		$layout->AddContentById('preview_state', 'style="display:none;"');
@@ -94,7 +115,7 @@ if($id == null){
 	$layout->AddContentById('results', $layout->GetContent('survey-edit-results'));
 	$layout->AddContentById('statistics', $layout->GetContent('survey-edit-statistics'));
 	$layout->AddContentById('two_way_tables', $layout->GetContent('survey-edit-two_way_tables'));
-	
+	$layout->AddContentById('categories', $layout->GetContent('survey-edit-categories'));
 	$layout->AddContentById('id', $id);
 	
 	$layout->AddContentById('total_time_taken', count($db->get_results("SELECT * FROM " . TABLES_PREFIX . "results WHERE survey_id = $id ORDER BY id DESC")));
@@ -307,6 +328,49 @@ if($id != null){
 	}
 
 	$layout->AddContentById('questions_rows', $questions_rows_html);
+	
+	$sid = $db->get_results("SELECT id,survey_id FROM " . TABLES_PREFIX . "taker_categories ORDER BY id ASC");
+	foreach($sid as $s) {
+		//echo $s->survey_id;
+		
+		if(strstr($s->survey_id, ',')) {  
+			$f = explode(",",$s->survey_id);
+			
+		}
+		else{
+			
+		}
+			
+	
+	}
+	//print_r($sid);die();
+	$cat = $db->get_results("SELECT * FROM " . TABLES_PREFIX . "taker_categories WHERE survey_id='$id' ORDER BY id ASC");
+	$cat_row_html = '';
+	
+	if($cat){
+		foreach($cat as $c){ 
+			$score_str = $db->get_results("SELECT score FROM " . TABLES_PREFIX . "survey WHERE id='$c->survey_id' ORDER BY id ASC");
+			$ind_score = explode(";;",$score_str[0]->score);
+			
+			foreach($ind_score as $ind) {
+				$ind_score1 = explode("::",$ind);
+				
+				if($ind_score1[0] == $c->cname){
+					$tscore =$ind_score1[1]; 
+				}
+			}
+			$row_layout = new Layout('html/','str/');
+			$row_layout->SetContentView('survey-edit-category-rows');
+			$row_layout->AddContentById('cat', $c->cname); 
+			$row_layout->AddContentById('dname', $tscore);
+			$cat_row_html .= $row_layout-> ReturnView();
+			
+		}
+	
+	}else{
+		$cat_row_html = '<tr><td colspan="2">{{ST:no_items}}</td></tr>';
+	}
+	$layout->AddContentById('cat_rows', $cat_row_html);
 	
 $arr_FCColors[] = "AFD8F8";
 $arr_FCColors[] = "F6BD0F";

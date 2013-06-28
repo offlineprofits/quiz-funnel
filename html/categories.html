@@ -1,11 +1,14 @@
 <!-- categories.html: Start -->
 <h2>{{ID:title}}</h2>
 <hr />
+<div class="alert-error">
+	{{ID:suberror}}
+</div><br />
 <div class="row">
 <div class="span4">
 {{ID:alert}}
 <form method="post" action="categories.php">
-<input type="text" class="span4" placeholder="{{ST:name}}" name="cname" value="{{ID:name}}"id="cname"/><br/>
+<input type="text" class="span4" placeholder="{{ST:name}}" name="cname" value="{{ID:name}}" id="cname"/><br/>
 {{ST:selectsurvey}} <br />
 <select multiple name="optioncat[]" id="optcat">
 	
@@ -31,12 +34,37 @@
 </div>
 <!-- admins.html:End -->
 <script>
+
 	$(function(){
+		$(".del").click(function(){
+			val = $(this).attr('id')	
+			
+			bootbox.confirm("Are you sure you want to perform this action ?", function(result) {
+				
+        		if(result == false )
+        		{
+        			return false	          			
+				}
+				else
+				{
+					url = 'categories.php?action=delete&id='+val;
+					window.location = url
+				}
+						
+			});
+	
+		})
 		$("#catsubmit").click(function(){
-			if($("#cname").val() == '' || $("#optcat").val() == '') {
-				alert("Please enter all the values");
-				return false;
+			
+			if($("#cname").val() == '' ){
+				alert("Please enter a name")
+				return false	
 			}
+			if($("#optcat").val() == null) {
+				alert("Please select a survey")
+				return false	
+			}
+			
 		})
 	})
 </script>

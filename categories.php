@@ -15,15 +15,30 @@ if(!AdminCanManageAdmins()){
 
 $layout = PrivatePage('categories', '{{ST:categories}}');
 
+if($_GET['action'] == 'delete') {
+	$db->query("DELETE FROM ".TABLES_PREFIX."taker_categories WHERE cname='$_GET[id]'");
+}
+
 if(isset($_POST['catsubmit'])) {
 	$data["cname"] = $_POST['cname'];
 	$val = '';
 	foreach($_POST['optioncat'] as $opt) {
-		$val .= $opt.",";
+		//$val .= $opt.",";
+		$result = $db->query("SELECT cname FROM ".TABLES_PREFIX."taker_categories WHERE cname='$_POST[cname]' AND survey_id='$opt'");
+		
+		if($result) {
+			$layout->AddContentById("suberror", "A category with same name and for same survey already exists");
+			continue;
+		}	
+		else {
+			
+			$data['survey_id'] = $opt;
+			$db->insert(TABLES_PREFIX . "taker_categories", $data);
+		}
 	}
-	$data['survey_id'] = substr($val,0,strlen($val)-1);
+	//$data['survey_id'] = substr($val,0,strlen($val)-1);
 	
-	$db->insert(TABLES_PREFIX . "taker_categories", $data);
+	//$db->insert(TABLES_PREFIX . "taker_categories", $data);
 	
 }
 
@@ -57,24 +72,18 @@ if($surveys) {
 		$options_html .= $opt_layout-> ReturnView();
 	}
 }
-$categories = $db->get_results("SELECT cname,survey_id FROM " . TABLES_PREFIX . "taker_categories");
-
+$categories = $db->get_results("SELECT cname,GROUP_CONCAT(survey_survey.title)as cate FROM ".TABLES_PREFIX."taker_categories INNER JOIN ".TABLES_PREFIX."survey ON ".TABLES_PREFIX."taker_categories.survey_id= ".TABLES_PREFIX."survey.id GROUP BY cname");
+//print_r($categories);die();
 $cat_html = "";
 if($categories) {
 	foreach($categories as $cat) {
 		
-		$suid = explode(",",$cat->survey_id);
-		$sur = '' ;
-		foreach($suid as $s) {
-			$ss = $db->get_results("SELECT title FROM ". TABLES_PREFIX ."survey WHERE id='$s'");
-			
-			$sur .= $ss[0]->title.",";
-		}
-		$sur = substr($sur, 0, strlen($sur)-1);
 		
+		//$sur = $db->get_results("SELECT title FROM ". TABLES_PREFIX ."survey WHERE id='$cat->survey_id'");
 		$cat_layout = new Layout('html/','str/');
 		$cat_layout->SetContentView('categories-rows');
-		$cat_layout->AddContentById('sur', $sur);
+		$cat_layout->AddContentById('sur', $cat->cate);
+		//$cat_layout->AddContentById('id', $cat->id);
 		$cat_layout->AddContentById('name', $cat->cname);
 			
 		$permissions = unserialize($admin->permissions);

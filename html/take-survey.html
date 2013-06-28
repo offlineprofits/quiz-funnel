@@ -84,9 +84,11 @@ $.get("token.php",function(txt){
 	
 	{{ID:questions}}
 	
-	
+	<table><tr><td><button type="button" class="btn btn-info" value="back" id="back" >Back</button></td><td></td><td>
+	<button type="button" class="btn btn-info" value="next" id="next" >Next</button></td></tr></table>
+	<br /><br /><br />
 	<div {{ID:hide_buttons}}>
-	<p><input class="btn" name="submit" value="{{ST:submit_answers}}" type="submit">&nbsp;&nbsp;&nbsp;&nbsp;<input class="btn" name="save" value="{{ST:save_answers}}" type="submit"></p>
+	<p id="foot"><input class="btn" name="submit" value="{{ST:submit_answers}}" type="submit">&nbsp;&nbsp;&nbsp;&nbsp;<input class="btn" name="save" value="{{ST:save_answers}}" type="submit"></p>
 	</div>
 	</form>
 		<br/>
@@ -99,3 +101,62 @@ $.get("token.php",function(txt){
 
 </body>
 </html>
+<script>
+	var mainid;
+	$(function(){
+		$("#foot").hide()
+		mainid = $(".ident").attr('id');
+		nextid = 0;
+		previd = 0;
+		if(mainid == 1) {
+			$("#back").addClass("hide");
+		}
+		
+		$("#next").click(function(){
+			
+			if(nextid == ($("#lastval").val()-1)) {
+				$("#next").addClass("hide");
+				$("#foot").show();
+			}
+				
+			$("#back").removeClass("hide");
+			if(nextid == 0){
+				
+				$("#"+mainid).addClass("hide");
+				nextid = parseInt(mainid)+parseInt(1);
+				$("#"+nextid).removeClass("hide");
+				previd=nextid;
+			}
+			else {
+				
+				$("#"+nextid).addClass("hide");
+				nextid = parseInt(nextid)+parseInt(1);
+				$("#"+nextid).removeClass("hide");
+				previd=nextid;
+			}
+			
+		})
+		
+		$("#back").click(function(){
+			$("#foot").hide()
+			if(previd == 2) {
+				$("#back").addClass("hide");
+			}
+			$("#next").removeClass("hide");
+			/*if(previd == 0) {
+				$("#"+nextid).addClass("hide");
+				previd = parseInt(nextid)-parseInt(1);
+				$("#"+previd).removeClass("hide");
+				nextid = previd;
+			}
+			else {*/
+				$("#"+previd).addClass("hide");
+				previd = parseInt(nextid)-parseInt(1);
+				$("#"+previd).removeClass("hide");
+				nextid = previd;
+			//}
+			
+			
+		})
+	})
+</script>

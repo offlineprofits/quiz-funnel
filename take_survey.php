@@ -41,17 +41,29 @@ if($survey){
 	}
 	
 	$questions = $db->get_results("SELECT * FROM " . TABLES_PREFIX . "question WHERE survey_id = $id ORDER BY id ASC");
-	
+	$tot_ques = $db->get_results("SELECT count(id) FROM " . TABLES_PREFIX . "question WHERE survey_id = $id"); // for pagination
+	foreach($tot_ques[0] as $t)
+		echo "<input type='hidden' id='lastval' value='".$t."'>";
 	$questions_rows_html = '';
 	if($questions){
 		$count = 1;
+		$pagination = 1;
+		$pflag = 1;
+		$pid = 1;
 		foreach($questions as $question){
+			
 			$cookie_name = 'surveyengine_'.$id.'_name_'.$question->id;
 			$row_layout = new Layout('html/','str/');
 			$row_layout->SetContentView('take-survey-piece');
 			$row_layout->AddContentById('number', $count);
 			$count++;
 			
+			if($pid == 1) {
+				$questions_rows_html .= "<div id=".$pid." class='ident'> ";
+			}
+			else {
+				$questions_rows_html .= "<div id=".$pid." class='hide'>";
+			}			
 			if($question->is_required == 'y'){
 				$row_layout->AddContentById('is_required', ' <span style="font-size: 0.6em; color: red;">{{ST:required}}</span>');
 			}
@@ -80,6 +92,7 @@ if($survey){
 				$choice_layout = new Layout('html/','str/');
 				$choice_layout->SetContentView('take-survey-tf');
 				$choice_layout->AddContentById('name', 'name_'.$question->id);
+				
 				if(isset($_POST['name_'.$question->id]) AND $_POST['name_'.$question->id] != ''){
 					$c = $_POST['name_'.$question->id];
 					$t = time() + COOKIE_TIME;
@@ -115,6 +128,7 @@ if($survey){
 				foreach($choices as $choice){
 					$choice_layout = new Layout('html/','str/');
 					$choice_layout->SetContentView('take-survey-mp');
+					
 					$choice_layout->AddContentById('name', 'name_'.$question->id);
 					$choice_layout->AddContentById('choice', $choice);
 					$choice_layout->AddContentById('value', $choice);
@@ -150,6 +164,7 @@ if($survey){
 				foreach($choices as $choice){
 					$choice_layout = new Layout('html/','str/');
 					$choice_layout->SetContentView('take-survey-ma');
+					
 					$choice_layout->AddContentById('name', 'name_'.$question->id);
 					$choice_layout->AddContentById('choice', $choice);
 					$choice_layout->AddContentById('value', $choice);
@@ -162,6 +177,7 @@ if($survey){
 			}elseif($question->question_type == 'st'){
 				$choice_layout = new Layout('html/','str/');
 				$choice_layout->SetContentView('take-survey-st');
+				
 				$choice_layout->AddContentById('name', 'name_'.$question->id);
 				if(isset($_POST['name_'.$question->id]) AND $_POST['name_'.$question->id] != ''){
 					$c = $_POST['name_'.$question->id];
@@ -176,6 +192,7 @@ if($survey){
 			}elseif($question->question_type == 'nd'){
 				$choice_layout = new Layout('html/','str/');
 				$choice_layout->SetContentView('take-survey-nd');
+				
 				$choice_layout->AddContentById('name', 'name_'.$question->id);
 				if(isset($_POST['name_'.$question->id]) AND $_POST['name_'.$question->id] != ''){
 					$c = $_POST['name_'.$question->id];
@@ -190,6 +207,7 @@ if($survey){
 			}elseif($question->question_type == 'nc'){
 				$choice_layout = new Layout('html/','str/');
 				$choice_layout->SetContentView('take-survey-nc');
+				
 				$choice_layout->AddContentById('name', 'name_'.$question->id);
 				if(isset($_POST['name_'.$question->id]) AND $_POST['name_'.$question->id] != ''){
 					$c = $_POST['name_'.$question->id];
@@ -206,6 +224,7 @@ if($survey){
 			}elseif($question->question_type == 'lt'){
 				$choice_layout = new Layout('html/','str/');
 				$choice_layout->SetContentView('take-survey-lt');
+				
 				$choice_layout->AddContentById('name', 'name_'.$question->id);
 				if(isset($_POST['name_'.$question->id]) AND $_POST['name_'.$question->id] != ''){
 					$c = $_POST['name_'.$question->id];
@@ -220,7 +239,21 @@ if($survey){
 			}
 			
 			$questions_rows_html .= $row_layout->ReturnView();
+			$questions_rows_html .= "</div>";
+			$pid++;
+			
+			/*echo $pagination;
+			if($pagination == 2) {
+				echo "<script>alert('asd')</script>";
+				$page_layout = new Layout('html/','str/');
+				$page_layout->SetContentView('take-survey-pagination');
+				$questions_rows_html .= $page_layout->ReturnView();
+				$pagination = 1;
+				continue;
+			}
+			$pagination++;*/
 		}
+
 	}else{
 		$questions_rows_html = '<p>{{ST:no_items}}</p>';
 	}
