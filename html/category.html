@@ -1,0 +1,79 @@
+<!-- Category.html:Start -->
+<h2 style="float: left;">{{ID:title}}</h2>
+<p style="float: right;"><a href="categories.php" class="btn">{{ST:back_to_categories}}</a> <a href="surveys.php?id={{ID:survey_id}}" class="btn">{{ST:back_to_survey}}</a></p>
+<div style="clear: both;"></div>
+<br/>
+<hr />
+<div class="alert-error">
+	{{ID:suberror}}
+</div><br />
+<div class="row">
+<div class="span12">
+{{ID:alert}}
+<form class="form-horizontal" method="post" action="">
+<input type="hidden" name="cname_old" value={{ID:name}}>
+<fieldset>
+<legend>{{ST:edit_category}}</legend>
+<div class="control-group">
+<label class="control-label" for="name">{{ST:category}}</label>
+<div class="controls">
+<input type="text" name="cname" id="cname" value="{{ID:name}}" />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="name">{{ST:selectsurvey}} </label>
+<div class="controls">
+<select multiple name="optioncat[]" id="optcat">
+	
+	{{ID:options}}
+</select><br />
+</div>
+</div>
+
+
+<div class="control-group">
+
+<div class="controls">
+<input type="submit" name="submit" value="submit" id="sub" class="btn btn-info" /></form>
+<input type="button" name="delete" value="Delete" id="del" class="btn btn-inverse" />
+</div>
+</div>
+
+<script>
+	$(function(){
+		$("#sub").click(function(){
+			
+		if($("#cname").val() == '')
+		{
+			alert("Please enter a name")
+			return false
+		}
+		if($("#optcat option:selected").length == 0) {
+			alert("Please select a survey")
+			return false
+		}
+		})
+		
+		$("#del").click(function(){
+			val = $("#cname").val()	
+			
+			bootbox.confirm("Are you sure you want to perform this action ?", function(result) {
+				
+        		if(result == false )
+        		{
+        			return false	          			
+				}
+				else
+				{
+					url = 'categories.php?action=delete&id='+val;
+					window.location = url
+				}
+						
+			});
+	
+		})
+		
+	})
+</script>

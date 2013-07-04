@@ -73,3 +73,70 @@ tinyMCE.init({
 <div id="modal_content"></div>
 </div>
 </div>
+<script>
+	$(function(){
+		$("#qpp").click(function(){
+			 $("#mdlAdd").modal()
+		})
+		$("#name").keydown(function(event) {
+        // Allow: backspace, delete, tab, escape, and enter
+        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || 
+             // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        else {
+            // Ensure that it is a number and stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault(); 
+            }   
+        }
+        })
+	})
+</script>
+
+<div id="mdlAdd" class="modal hide " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Questions per page</h3>
+    </div>
+    <div class="modal-body">
+    
+        
+		<div class="alert alert-danger hide" id="error">
+		</div>
+		
+		<fieldset>
+		    <label>Questions per page</label>
+		    <input type="text" id="name"  />
+		</fieldset>        
+		
+	</div>
+    <div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		<button class="btn btn-primary" id="save" >Save</button>
+    </div>
+</div>
+
+
+
+<script>
+	$(function(){
+		$("#mdlAdd #save").click(function(){
+			q = $("#name").val()
+			sid = $("#sid").val()
+			
+			$.post('ajax.php',{ sid: sid,ques: q,action: 'quesperpage' }, function(data){ 
+         
+                window.location.reload()   
+               
+	        })
+		})
+	})
+</script>
+
+<!--
+-->

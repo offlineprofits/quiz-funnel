@@ -67,6 +67,7 @@ $.get("token.php",function(txt){
 </script>
 </head>
 <body>
+	<input type="hidden" id="qpp" value={{ID:qpp}} />
 	<div class="container" style="-moz-text-size-adjust:auto; -webkit-text-size-adjust:auto; -ms-text-size-adjust:auto;">
 		<br/>
 		<h1><a href="{{ID:site_url}}">{{ST:site_name}}</a></h1>
@@ -79,6 +80,10 @@ $.get("token.php",function(txt){
 	{{ID:description}}
 	</div>
 	<br/>
+	<input type="hidden" value="{{ID:totsur}}" id="tsur" />
+	<div class="progress progress-striped active" id="pbar-container">
+  	<div class="bar" style="width: 0%;" id="pbar"></div>
+	</div><br />
 	{{ID:alert}}
 	<form method="post" action="take_survey.php{{ID:id_query}}" name="survey{{ID:id}}" id="survey{{ID:id}}" class="survey_form">
 	
@@ -102,17 +107,111 @@ $.get("token.php",function(txt){
 </body>
 </html>
 <script>
-	var mainid;
+	nextid = 0; 
+	previd = 0;
 	$(function(){
-		$("#foot").hide()
+		qpp = $("#qpp").val();
+		
+		for(i=1;i<=qpp;i++) {
+			$("#"+i).removeClass("hide");   //for the showing the value initially on the page load
+		}
+		
+		
+		$("#back").addClass("hide"); // to hide back button on the first load
+		
+		
+		$("#next").click(function(){
+			
+			pageNext(qpp);
+		})
+		$("#back").click(function(){
+			
+			pageBack(qpp);
+		})
+		
+		
+		
+		function pageNext(pnum) { //function for next page
+			
+			nextid = parseInt(nextid)+parseInt(pnum) 
+			//previd = nextid; // variable for pageback
+			
+			$("#back").removeClass("hide"); //to show the back button
+			
+			if(nextid >= (parseInt($("#lastval").val())-parseInt(pnum))) {  //to hide next button at the end
+				$("#next").addClass("hide");
+				$("#foot").show();
+			}
+			
+			
+			for(i=(nextid+1);i<=(parseInt(nextid)+parseInt(pnum));i++) {
+				
+				$("#"+i).removeClass("hide");
+			
+			}
+			for(i=nextid;i>=(parseInt(nextid)-parseInt(pnum));i--) {
+			
+				$("#"+i).addClass("hide")
+			}
+			
+			
+		}
+		
+		
+		function pageBack(pnum) {
+			alert(nextid)
+			nextid = parseInt(nextid)-parseInt(pnum) 
+			for(i=(nextid+1);i<=(parseInt(nextid)+parseInt(pnum));i++) {
+			
+				$("#"+i).addClass("hide")
+			}
+			for(i=nextid;i>=(parseInt(nextid)-parseInt(pnum));i--) {
+				
+				$("#"+i).removeClass("hide");
+			
+			}
+			
+			
+		}
+	})
+</script>
+
+
+
+
+
+<script>
+	//var mainid;
+	/*$(function(){
+		total = $("#tsur").val();
+		if(total < 2) {
+			$("#next").hide();
+			$("#prev").hide();
+			$("#pbar-container").hide();
+			$("#foot").show()
+		}
+		else {
+			pblock = 100/parseFloat($("#tsur").val());
+			progress = pblock;
+			$("#pbar").css("width",progress+"%");
+			alert($("#tsur").val());
+			$("#foot").hide();
+		}
+		qpp = $("#qpp").val();
 		mainid = $(".ident").attr('id');
-		nextid = 0;
-		previd = 0;
+		nextid = 1;
+		previd = 1;
+		
+		
 		if(mainid == 1) {
 			$("#back").addClass("hide");
 		}
 		
 		$("#next").click(function(){
+			pageNext(qpp)
+			/*progress = parseFloat(progress)+parseFloat(pblock);
+			
+			$("#pbar").css("width",progress+"%");
 			
 			if(nextid == ($("#lastval").val()-1)) {
 				$("#next").addClass("hide");
@@ -120,7 +219,7 @@ $.get("token.php",function(txt){
 			}
 				
 			$("#back").removeClass("hide");
-			if(nextid == 0){
+			/*if(nextid == 0){
 				
 				$("#"+mainid).addClass("hide");
 				nextid = parseInt(mainid)+parseInt(1);
@@ -133,30 +232,38 @@ $.get("token.php",function(txt){
 				nextid = parseInt(nextid)+parseInt(1);
 				$("#"+nextid).removeClass("hide");
 				previd=nextid;
-			}
+			// }
 			
 		})
 		
 		$("#back").click(function(){
+			
+			progress = parseFloat(progress)-parseFloat(pblock);
+			
+			$("#pbar").css("width",progress+"%");
 			$("#foot").hide()
 			if(previd == 2) {
 				$("#back").addClass("hide");
 			}
 			$("#next").removeClass("hide");
-			/*if(previd == 0) {
-				$("#"+nextid).addClass("hide");
-				previd = parseInt(nextid)-parseInt(1);
-				$("#"+previd).removeClass("hide");
-				nextid = previd;
-			}
-			else {*/
-				$("#"+previd).addClass("hide");
-				previd = parseInt(nextid)-parseInt(1);
-				$("#"+previd).removeClass("hide");
-				nextid = previd;
-			//}
+			$("#"+previd).addClass("hide");
+			previd = parseInt(nextid)-parseInt(1);
+			$("#"+previd).removeClass("hide");
+			nextid = previd;
+			
 			
 			
 		})
-	})
+		function pageNext(pnum) {
+			nextid = pnum+1;
+			for(i=nextid;i<=(parseInt(nextid)+parseInt(pnum));i++) {
+				$("#"+nextid).removeClass("hide")
+			}
+			for(i=nextid;i>=(parseInt(nextid)-parseInt(pnum));i--) {
+				$("#"+nextid).addClass("hide")
+			}
+		}*/
+		
+		
+	//})
 </script>

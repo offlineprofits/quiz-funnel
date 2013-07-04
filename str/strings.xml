@@ -184,4 +184,6 @@
 
 <string name="selectsurvey">Select Survey</string>
 <string name="Assignedto">Assigned to</string>
+<string name="back_to_categories">Back To Categories</string>
+<string name="questions_per_page">Questions per page</string>
 </strings>

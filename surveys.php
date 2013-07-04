@@ -22,7 +22,7 @@ if(isset($_GET['id'])){
 	$id = null;
 }
 $survey = null;
-
+echo "<input type='hidden' id='sid' value=$id />";
 if(isset($_POST['catsubmit'])) {
 	$string = '';
 	
@@ -34,7 +34,7 @@ if(isset($_POST['catsubmit'])) {
 	}
 	$string = substr($string, 0,(strlen($string)-2));
 	$db->query("UPDATE ".TABLES_PREFIX."survey SET score= '$string' WHERE id=$id");
-	$layout->AddContentById($id, $view);
+	//$layout->AddContentById($id, $view);
 	//if($db->insert(TABLES_PREFIX . "survey", $values, $format))//{
 	//$db->insert(TABLES_PREFIX . "survey", $values, $format))
 }

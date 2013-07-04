@@ -18,8 +18,11 @@ if(isset($_GET['x'])){
 $layout->AddContentById('current_year', date('Y'));
 $layout->AddContentById('site_url', SITE_URL);
 
+
 $survey = $db->get_row("SELECT * FROM " . TABLES_PREFIX . "survey WHERE id = $id AND status = 'published' ORDER BY id DESC LIMIT 0,1");
+
 if($survey){
+	$layout->AddContentById('qpp', $survey->quesperpage);
 	$layout->AddContentById('id', $id);
 	$layout->AddContentById('name', $survey->title);
 	$layout->AddContentById('description', preg_replace('/\v+|\\\[rn]/','<br/>',$survey->description));
@@ -41,7 +44,9 @@ if($survey){
 	}
 	
 	$questions = $db->get_results("SELECT * FROM " . TABLES_PREFIX . "question WHERE survey_id = $id ORDER BY id ASC");
-	$tot_ques = $db->get_results("SELECT count(id) FROM " . TABLES_PREFIX . "question WHERE survey_id = $id"); // for pagination
+	$tot_ques = $db->get_results("SELECT count(id) as tot FROM " . TABLES_PREFIX . "question WHERE survey_id = $id"); // for pagination
+	
+	$layout->AddContentById("totsur", $tot_ques[0]->tot);
 	foreach($tot_ques[0] as $t)
 		echo "<input type='hidden' id='lastval' value='".$t."'>";
 	$questions_rows_html = '';
