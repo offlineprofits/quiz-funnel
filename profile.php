@@ -72,7 +72,35 @@ if(isset($_POST['submit'])){
 			$format = "%s";
 		}
 	}
-	
+	if(isset($_POST['sitename']) AND $_POST['sitename'] != ''){
+		/*$xml = simplexml_load_file('str/strings.xml');
+		foreach ($xml as $x ) {// print_r($x -> @attributes);
+			//if($x[@attributes]->name == 'site_name') die();
+			print_r($x);echo "<br />";
+		};die();
+		$xml->addChild('strings')->addChild('site_name', $_POST[sitename]);
+		file_put_contents('foo.xml', $xml->asXML());*/
+		$doc = new DOMDocument();
+        $doc->load('str/strings.xml');
+        $stringsgroup = $doc->getElementsByTagName("strings");
+        foreach($stringsgroup as $group){
+        	       
+        	$pname = $group->getElementsByTagName("string");
+			
+			foreach($pname as $p) { 
+	            $pcode = $p->getAttribute('name'); 
+				
+		            if($pcode=="site_name"){
+		            	
+		               // $pname->removeChild($pcode);
+						//$pname->addChild($pcode);
+						$p->nodeValue = $_POST['sitename'];
+		            }
+		   	}	
+        }
+    
+        $doc->save('str/strings.xml');
+	} 
 	if(!$errors){
 		$db->update(TABLES_PREFIX . "admin", $values, array('id'=>$id), $format);
 		$layout->AddContentById('alert', $layout->GetContent('alert'));

@@ -33,7 +33,7 @@ if($_POST['submit']) {
 			//$db->query("UPDATE ".TABLES_PREFIX."taker_categories SET cname=Clean($_POST[cname]");//(TABLES_PREFIX . "taker_categories", $data);
 			
 		}
-	
+		$layout->AddContentById("subsuccess", "Updated Successfully");
 }
 $pname = isset($_POST['cname']) ? $_POST['cname'] : $_GET['name'];
 $layout->AddContentById("name",$pname );

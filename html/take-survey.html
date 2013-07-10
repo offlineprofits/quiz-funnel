@@ -92,7 +92,7 @@ $.get("token.php",function(txt){
 	<table><tr><td><button type="button" class="btn btn-info" value="back" id="back" >Back</button></td><td></td><td>
 	<button type="button" class="btn btn-info" value="next" id="next" >Next</button></td></tr></table>
 	<br /><br /><br />
-	<div {{ID:hide_buttons}}>
+	<div {{ID:hide_buttons}} id="footer">
 	<p id="foot"><input class="btn" name="submit" value="{{ST:submit_answers}}" type="submit">&nbsp;&nbsp;&nbsp;&nbsp;<input class="btn" name="save" value="{{ST:save_answers}}" type="submit"></p>
 	</div>
 	</form>
@@ -111,11 +111,25 @@ $.get("token.php",function(txt){
 	previd = 0;
 	$(function(){
 		qpp = $("#qpp").val();
+		if(qpp == 0) { 
+			qpp = 1; 
+			
+		}  
+		total = $("#tsur").val();
 		
+		if(total > 1) {
+			$("#footer").hide() // always hide the footer on 1st load. Footer will be showed only the next button click
+		}
+
+		pblock = (parseInt(100)/parseInt(total))*parseInt(qpp)
+		progress = pblock;
+		$("#pbar").css("width",progress+"%");
 		for(i=1;i<=qpp;i++) {
 			$("#"+i).removeClass("hide");   //for the showing the value initially on the page load
 		}
-		
+		if($('.hide').prop("tagName") == undefined) {
+			$("#next").addClass("hide")
+		}
 		
 		$("#back").addClass("hide"); // to hide back button on the first load
 		
@@ -133,6 +147,10 @@ $.get("token.php",function(txt){
 		
 		function pageNext(pnum) { //function for next page
 			
+			
+			progress = parseFloat(progress)+parseFloat(pblock);
+			$("#pbar").css("width",progress+"%");
+			
 			nextid = parseInt(nextid)+parseInt(pnum) 
 			//previd = nextid; // variable for pageback
 			
@@ -140,7 +158,7 @@ $.get("token.php",function(txt){
 			
 			if(nextid >= (parseInt($("#lastval").val())-parseInt(pnum))) {  //to hide next button at the end
 				$("#next").addClass("hide");
-				$("#foot").show();
+				$("#footer").show();
 			}
 			
 			
@@ -159,19 +177,25 @@ $.get("token.php",function(txt){
 		
 		
 		function pageBack(pnum) {
-			alert(nextid)
-			nextid = parseInt(nextid)-parseInt(pnum) 
-			for(i=(nextid+1);i<=(parseInt(nextid)+parseInt(pnum));i++) {
+			$("#next").removeClass("hide");
+			$("#footer").hide(); // to hide the footer
 			
+			progress = parseFloat(progress)-parseFloat(pblock);
+			$("#pbar").css("width",progress+"%");
+			
+			if(parseInt(nextid)-parseInt(pnum) == 0) { // to hide the back button at the first page
+				$("#back").addClass("hide");
+			}
+			for(i=(nextid+1);i<=(parseInt(nextid)+parseInt(pnum));i++) {
 				$("#"+i).addClass("hide")
 			}
-			for(i=nextid;i>=(parseInt(nextid)-parseInt(pnum));i--) {
+			for(i=nextid;i>(parseInt(nextid)-parseInt(pnum));i--) {
 				
 				$("#"+i).removeClass("hide");
 			
 			}
 			
-			
+			nextid = parseInt(nextid)-parseInt(pnum) 
 		}
 	})
 </script>

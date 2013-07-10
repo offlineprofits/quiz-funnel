@@ -68,13 +68,11 @@ if(isset($_POST['submit'])){
 			foreach($_POST['tscore'] as $s) {
 				
 				$score[] = CleanToSerialize($s);
-				if($flag == 0){
-					$layout->AddContentById('tfvalues', '<input type="text" value='.$s.' name="tscore[]" id="tscore" placeholder="Score for true" /><br />');
-				}
-				else {
-					
-					$layout->AddContentById('tfvalues', '<input type="text" value='.$s.' name="tscore[]" id="fscore" placeholder="Score for false"/><br />');
-				}
+				
+					$layout->AddContentById('tfvalues', '<input type="text" value="'.$s.'" name="tscore[]" id="tscore" placeholder="Score for true" /><br />{{ID:tfvalues}}');
+				
+					//$layout->AddContentById('tfvalues', '<input type="text" value='.$s.' name="tscore[]" id="fscore" placeholder="Score for false"/><br />');
+				
 				$flag++;
 			}
 			$values['scores'] = serialize($score);

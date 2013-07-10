@@ -1,13 +1,52 @@
 						<a style="cursor:pointer;float:left;" id="qpp">{{ST:questions_per_page}}</a><p style="text-align: right;"><a href="questions.php?id={{ID:id}}">{{ST:add_question}}</a></p>
 						<br/>
-						<table class="table table-bordered">
+						<table class="table table-bordered" id="qqq">
 							<thead>
 								<tr>
+									
 								<th>{{ST:question}}</th>
 								<th>{{ST:type}}</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="q">
 								{{ID:questions_rows}}
 							</tbody>
 						</table>
+<script>
+	$(function(){
+		$(".icon-chevron-up").click(function(){
+			// $(this).next().removeClass("hide");
+			pid = $(this).parent().parent().prev().find(":input").val()
+			myid = $(this).prev().val()
+			
+			$.post('ajax.php',{ myid: myid,pid: pid,action: 'swap' }, function(data){ 
+         		
+            })
+            $(this).parent().parent().prev().find(":input").attr("value",myid)
+         	$(this).prev().attr("value",pid)
+	        $(this).parent().parent().prev().before($(this).parent().parent()) 
+			trim()
+			
+		})
+		$(".icon-chevron-down").click(function(){
+			//$(this).prev().removeClass("hide");
+			pid = $(this).parent().parent().next().find(":input").val()
+			myid = $(this).prev().prev().val()
+			
+			$.post('ajax.php',{ myid: myid,pid: pid,action: 'swap' }, function(data){ 
+         		
+            })
+            $(this).parent().parent().next().find(":input").attr("value",myid)
+         	$(this).prev().prev().attr("value",pid)
+	        $(this).parent().parent().next().after($(this).parent().parent())
+	        trim() 
+		})
+		trim()
+		function trim() {
+			
+		$("i").removeClass("hide")
+		$("#q > tr:first").find(".icon-chevron-up").addClass("hide");
+		$("#q > tr:last").find(".icon-chevron-down").addClass("hide");
+		}
+	})
+</script>

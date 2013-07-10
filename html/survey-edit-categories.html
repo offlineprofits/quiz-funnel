@@ -1,5 +1,5 @@
 <table>
-	<form method="post" id="frm">
+	<form method="post" id="frm" action="surveys.php?id={{ID:id}}&active_tab=categories">
 	<thead>
 		<tr>
 			<th>{{ST:categories}}</th><th>Score</th>
@@ -8,11 +8,12 @@
 	</thead>
 	<tbody>
 		{{ID:cat_rows}}
-	</tbody>
+	
 	<tr>
 	<td></td>
-	<td><input class="btn" type="submit" value="submit" name="catsubmit" id="catsubmit" ></td>
+	<td><input class="btn" type="submit" value="submit" name="catsubmit" id="catsubmit" {{ID:hhh}}></td>
 	</tr>
+	</tbody>
 	</form>
 </table>
 <script>

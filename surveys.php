@@ -18,11 +18,15 @@ $layout = PrivatePage('survey-edit-main', '{{ST:manage_survey}}');
 
 if(isset($_GET['id'])){
 	$id = intval($_GET['id']);
+	$qppage = $db->get_row("SELECT quesperpage FROM ".TABLES_PREFIX."survey WHERE id=$id");
+	$layout->AddContentById("qperpage", $qppage->quesperpage);
+	echo "<input type='hidden' id='sid' value=$id />";
 }else{
 	$id = null;
 }
 $survey = null;
-echo "<input type='hidden' id='sid' value=$id />";
+
+
 if(isset($_POST['catsubmit'])) {
 	$string = '';
 	
@@ -197,6 +201,7 @@ if(isset($_POST['submit'])){
 	}
 	
 	if(!$errors){
+		$values['redirect_url'] = "finish_survey.php";
 		$has_been_saved = false;
 		if($id == null){
 			$values['date_created'] = date('Y-m-d H:i:s');
@@ -296,7 +301,9 @@ if($id != null){
 
 	$layout->AddContentById('results_rows', $scores_rows_html);
 	
-	$questions = $db->get_results("SELECT * FROM " . TABLES_PREFIX . "question WHERE survey_id = $id ORDER BY id ASC");
+	$questions = $db->get_results("SELECT * FROM " . TABLES_PREFIX . "question WHERE survey_id = $id ORDER BY id 
+	ASC");
+	// print_r($questions);
 	$questions_rows_html = '';
 	if($questions){
 		foreach($questions as $question){
@@ -368,6 +375,8 @@ if($id != null){
 		}
 	
 	}else{
+	
+		$layout->AddContentById('hhh', "style='display:none'");
 		$cat_row_html = '<tr><td colspan="2">{{ST:no_items}}</td></tr>';
 	}
 	$layout->AddContentById('cat_rows', $cat_row_html);

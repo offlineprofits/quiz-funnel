@@ -1,7 +1,8 @@
 <h2 style="float: left;">{{ID:title}}</h2>
 <p style="float: right;"><a  {{ID:delete_state}} href="surveys.php" class="btn btn-success">{{ST:create_new_survey}}</a> <a target="_blank" href="take_survey.php{{ID:i_query}}" class="btn" {{ID:preview_state}}>{{ST:view}}</a> <a target="_blank" href="https://twitter.com/intent/tweet?url={{ID:survey_url}}" class="btn btn-info" {{ID:preview_state}}>{{ST:tweet}}</a>  <a target="_blank" href="http://www.facebook.com/sharer.php?u={{ID:survey_url}}&t={{ID:name}}" class="btn btn-primary" {{ID:preview_state}}>{{ST:fb_share}}</a></p>
 <div style="clear: both;"></div>
-<code {{ID:preview_state}}>{{ID:base_url}}take_survey.php{{ID:i_query}}</code><br/>
+<!--<code {{ID:preview_state}}>{{ID:base_url}}take_survey.php{{ID:i_query}}</code><br/>-->
+<code {{ID:preview_state}}><a target="_blank" href="take_survey.php{{ID:i_query}}">take_survey.php{{ID:i_query}}</a></code></br/>
 <br/>
 {{ID:alert}}
 <div class="row">
@@ -21,7 +22,7 @@ tinyMCE.init({
 	document_base_url : "{{ID:base_url}}"
 });
 </script>
-<input type="text" class="span4" title="{{ST:redirect_url}}" placeholder="{{ST:redirect_url}}" name="redirect_url" value="{{ID:redirect_url}}"/><br/>
+<!--<input type="text" class="span4" title="{{ST:redirect_url}}" placeholder="{{ST:redirect_url}}" name="redirect_url" value="{{ID:redirect_url}}"/><br/>--></br/>
 <input type="text" class="span4 field_nd" title="{{ST:daily_limit}}" placeholder="{{ST:daily_limit}}" name="daily_limit" value="{{ID:daily_limit}}"/><br/>
 <input type="text" class="span4 field_nd" title="{{ST:total_limit}}" placeholder="{{ST:total_limit}}" name="total_limit" value="{{ID:total_limit}}"/><br/>
 <input type="checkbox" name="email" value="1" {{ID:email_state}}/> {{ST:email_me_when_taken}}<br/>
@@ -111,7 +112,7 @@ tinyMCE.init({
 		
 		<fieldset>
 		    <label>Questions per page</label>
-		    <input type="text" id="name"  />
+		    <input type="text" id="name" value="{{ID:qperpage}}" />
 		</fieldset>        
 		
 	</div>
@@ -137,6 +138,10 @@ tinyMCE.init({
 		})
 	})
 </script>
-
-<!--
--->
+<script>
+	$(function(){
+		
+	    $( "#sortable" ).sortable();
+	    $( "#sortable" ).disableSelection();
+  	})
+</script>

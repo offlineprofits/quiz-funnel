@@ -77,49 +77,106 @@ tinyMCE.init({
 <th>{{ST:type}}</th>
 </tr>
 </thead>
-<tbody>
+<tbody id="q">
 {{ID:rows}}
 </tbody>
 </table>
 </div>
 </div>
 <!-- questions.html:End -->
-<!--
+
 <script>
 	$('#correct_ans').tooltip({animation: 'true',placement:'right'})
 	$("#question_type").change(function(){
 		val = $("#question_type").val()
-		alert(val)
-	})
-</script>
-		if(val == "tf") {
-			$("#tfscore").removeClass("hide")
-			$("#stscore").addClass("hide")
-			
-		}
-		if(val == "st") {
-			$("#tfscore").addClass("hide")
-			$("#stscore").removeClass("hide")
-			
-		}
-		if(val == "lt") {
-			$("#tfscore").addClass("hide")
-			$("#stscore").removeClass("hide")
-		}
 		
-		if(val == "nd") {
-			$("#tfscore").addClass("hide")
-			$("#stscore").removeClass("hide")
+	
+		
+		/*if(val == "tf") {
+			alert("block1")
+			$("#tfvalues").removeClass("hide")
+			$("#stvalues").addClass("hide")
+			$("#multiple_choice").addClass("hide")
 		}
-		if(val == "nc") {
-			$("#tfscore").addClass("hide")
-			$("#stscore").removeClass("hide")
+		else if(val == "st" || val == "lt" || val == "nd" || val == "nc" ) {
+			alert("block2")
+			$("#tfvalues").addClass("hide")
+			$("#stvalues").removeClass("hide")
+			$("#multiple_choice").addClass("hide")
+		}
+		else if(val == "ma" || val == "mp") {
+			alert("block3")
+			$("#tfvalues").addClass("hide")
+			$("#stvalues").addClass("hide")
+			$("#multiple_choice").removeClass("hide")
 		}
 		if(val == "") {
-			$("#tfscore").addClass("hide")
-			$("#stscore").addClass("hide")
+			$("#tfscore").css("display","none")
+			$("#stscore").css("display","block")
+		}*/
+		if(val == "tf") {
+			
+			$("#tfvalues").css("display","block")
+			$("#stvalues").css("display","none")
+			$("#multiple_choice").css("display","none")
+			
+		}
+		else if(val == "st" || val == "lt" || val == "nd" || val == "nc" ) {
+			
+			$("#tfvalues").css("display","none")
+			$("#stvalues").css("display","block")
+			$("#multiple_choice").css("display","none")
+		}
+		else if(val == "ma" || val == "mp") {
+			
+			$("#tfvalues").css("display","none")
+			$("#stvalues").css("display","none")
+			$("#multiple_choice").css("display","block")
+		}
+		if(val == "") {
+			$("#tfvalues").css("display","none")
+			$("#stvalues").css("display","none")
+			$("#multiple_choice").css("display","none")
 		}
 		
 	})
-</script>-->
+</script>
 
+<script>
+	$(function(){
+		$(".icon-chevron-up").click(function(){
+			// $(this).next().removeClass("hide");
+			pid = $(this).parent().parent().prev().find(":input").val()
+			myid = $(this).prev().val()
+			
+			$.post('ajax.php',{ myid: myid,pid: pid,action: 'swap' }, function(data){ 
+         		
+            })
+            $(this).parent().parent().prev().find(":input").attr("value",myid)
+         	$(this).prev().attr("value",pid)
+	        $(this).parent().parent().prev().before($(this).parent().parent()) 
+			trim()
+			
+		})
+		$(".icon-chevron-down").click(function(){
+			//$(this).prev().removeClass("hide");
+			pid = $(this).parent().parent().next().find(":input").val()
+			myid = $(this).prev().prev().val()
+			
+			$.post('ajax.php',{ myid: myid,pid: pid,action: 'swap' }, function(data){ 
+         		
+            })
+            $(this).parent().parent().next().find(":input").attr("value",myid)
+         	$(this).prev().prev().attr("value",pid)
+	        $(this).parent().parent().next().after($(this).parent().parent())
+	        trim() 
+		})
+		trim()
+		function trim() {
+			
+		$("i").removeClass("hide")
+		$("#q > tr:first").find(".icon-chevron-up").addClass("hide");
+		$("#q > tr:last").find(".icon-chevron-down").addClass("hide");
+		}
+	})
+</script>

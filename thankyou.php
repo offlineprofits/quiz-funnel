@@ -47,10 +47,11 @@ foreach($score as $s) {
 	//echo $s;
 	$pos = strpos($s,":");
 	$scr = substr($s,$pos+2,strlen($s));
+	//echo $scr."<br />";
 	$your_cat = substr($s,0,$pos);
 	$temp[$your_cat] = $scr;
 }
-$temp["as"] = 0;
+//$temp["as"] = 0;
 asort($temp);
 foreach ($temp as $key=>$t) {
 	if($_SESSION['total_score'] > $t){
@@ -58,6 +59,7 @@ foreach ($temp as $key=>$t) {
 	}
 	else {
 		$your_category = $key;
+		break;
 	}
 }
 
@@ -72,6 +74,6 @@ $val = explode("::",$s);
 		$layout->AddContentById('yourcategory', "You are categorized as $val[1]");
 	}
 }*/
-$layout->AddContentById('yourcategory', "$your_category");
+$layout->AddContentById('yourcategory', $your_category);
 $layout->RenderViewAndExit();
 ?>
